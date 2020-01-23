@@ -11,9 +11,13 @@
 <script>
 import Card from "./components/Card.vue";
 import {mapState} from 'vuex';
+import { HTTP } from './http-common';
 
 
 export default {
+
+
+
   name: "app",
   components: {
     Card
