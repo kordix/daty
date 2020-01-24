@@ -15,8 +15,12 @@ export default new Vuex.Store({
   mutations: {
     draw(state) {
       let num = Math.floor(Math.random() * state.daty.length)
+      if(state.daty[num]){
       state.current = state.daty[num];
       state.daty.splice(num, 1);
+      }else{
+        state.current = {date:'9999',opis:'koniec gry'}
+      }
     },
     SAVE_USERS(state, users) {
       state.daty = users;
@@ -27,12 +31,8 @@ export default new Vuex.Store({
     draw(context){
       context.commit('draw');
     },
-    loadUsers({ commit }) {
-      HTTP.get('api/read.php').then(result => {
-        commit('SAVE_USERS', result.data);
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
+    loadUsers(context){
+      HTTP.get('api/read.php').then((res)=>context.commit('SAVE_USERS',res.data)).then((res)=>context.commit('draw'))
     }
   },
   modules: {
